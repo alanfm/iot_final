@@ -85,7 +85,7 @@ def generateData(percentLux=0.1, percentTemp=0.3):
         tempSensor = 0
     
     # Critérios para rotular as falhas e operação normal
-    if (luxSensor <= (luxVal * (1 - percentLux)))  and luxStatus == 1 and lightingSwitch == 1 and tempSensor >= (temp * (1 + percentTemp)) and climateSwitch == 1 and tempStatus == 1 and humVal >= 50:
+    if (luxSensor <= (luxVal * (1 - percentLux)))  and luxStatus == 1 and lightingSwitch == 1 and tempSensor >= (tempVal * (1 + percentTemp)) and climateSwitch == 1 and tempStatus == 1 and humVal >= 50:
         label = 3 # falha na iluminação e ar condicionado
     elif (luxSensor <= (luxVal * (1 - percentLux)))  and luxStatus == 1 and lightingSwitch == 1:
         label = 2 # falha na iluminação
