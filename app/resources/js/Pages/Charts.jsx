@@ -13,6 +13,7 @@ import {
 } from 'chart.js';
 import { Bar, Line } from 'react-chartjs-2';
 import faker from 'faker';
+import { useEffect, useState } from "react";
 
 ChartJS.register(
     CategoryScale,
@@ -25,38 +26,113 @@ ChartJS.register(
     Legend
 );
 
-const options = {
-    responsive: true,
-    plugins: {
-        legend: {
-            position: 'top',
-        },
-        title: {
-            display: true,
-            text: 'Chart Example',
-        },
-    },
-};
+export default function Charts({lux, hum, temp}) {
+    const [luxChart, setLuxChart] = useState({values: [], dates: []})
+    const [humChart, setHumChart] = useState({values: [], dates: []})
+    const [tempChart, setTempChart] = useState({values: [], dates: []})
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+    useEffect(() => {
+        lux.map(v => {
+            let t = luxChart
+            t.values.push(v.value)
+            t.dates.push(v.date)
+            setLuxChart(t)
+        })
 
-const data = {
-    labels,
-    datasets: [
-        {
-            label: 'Dataset 1',
-            data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-            backgroundColor: 'rgba(255, 99, 132, 0.5)',
-        },
-        {
-            label: 'Dataset 2',
-            data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-            backgroundColor: 'rgba(53, 162, 235, 0.5)',
-        },
-    ],
-};
 
-export default function Charts() {
+        hum.map(v => {
+            let t = humChart
+            t.values.push(v.value)
+            t.dates.push(v.date)
+            setHumChart(t)
+        })
+
+
+        temp.map(v => {
+            let t = tempChart
+            t.values.push(v.value)
+            t.dates.push(v.date)
+            setTempChart(t)
+        })
+    }, [lux, hum, temp])
+
+    console.log(luxChart)
+
+    const optionsLuxChart = {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                display: false
+            },
+            title: {
+                display: true,
+                text: 'Dados do sensor de Luminosidade',
+            },
+        },
+    };
+
+    const optionsHumChart = {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                display: false
+            },
+            title: {
+                display: true,
+                text: 'Dados do sensor de Umidade',
+            },
+        },
+    };
+
+    const optionsTempChart = {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                display: false
+            },
+            title: {
+                display: true,
+                text: 'Dados do sensor de Temperatura',
+            },
+        },
+    };
+
+    const dataLux = {
+        labels: luxChart.dates,
+        datasets: [
+            {
+                label: 'valor',
+                data: luxChart.values,
+                backgroundColor: '#fdfd96',
+            },
+        ],
+    };
+
+    const dataHum = {
+        labels: humChart.dates,
+        datasets: [
+            {
+                label: 'valor',
+                data: humChart.values,
+                backgroundColor: '#77dd77',
+            },
+        ],
+    };
+
+    const dataTemp = {
+        labels: tempChart.dates,
+        datasets: [
+            {
+                label: 'valor',
+                data: tempChart.values,
+                backgroundColor: '#84b6f4',
+            },
+        ],
+    };
+
     return (
         <>
             <Head title="Home" />
@@ -91,11 +167,16 @@ export default function Charts() {
                         </Link>
                     </div>
                 </div>
-                <div className="p-2 ml-2 mr-2 bg-white rounded-md shadow-md">
-                    <Bar options={options} data={data} />
-                </div>
-                <div className="p-2 ml-2 mr-2 bg-white rounded-md shadow-md">
-                    <Line options={options} data={data} />
+                <div className="flex flex-col gap-4 md:flex-row md:grid md:grid-cols-2 md:h-1/4 lg:grid-cols-3">
+                    <div className="p-2 ml-2 mr-2 bg-white rounded-md shadow-md">
+                        <Line options={optionsLuxChart} data={dataLux} />
+                    </div>
+                    <div className="p-2 ml-2 mr-2 bg-white rounded-md shadow-md">
+                        <Line options={optionsHumChart} data={dataHum} />
+                    </div>
+                    <div className="p-2 ml-2 mr-2 bg-white rounded-md shadow-md">
+                        <Line options={optionsTempChart} data={dataTemp} />
+                    </div>
                 </div>
             </div>
         </>

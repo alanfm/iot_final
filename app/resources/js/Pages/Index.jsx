@@ -17,7 +17,7 @@ export default function Index({sensors}) {
     useEffect(() => {
         setBox(sensors.map((v, i) => {
             let status = v.status == 1? 2: 1
-            return (<div key={i} className="p-2 ml-2 mr-2 bg-white rounded-md shadow-md">
+            return (<div key={i} className="p-2 ml-2 mr-2 bg-white rounded-md shadow-md md:flex-1">
                     <div className="flex flex-wrap">
                         <div className="flex-1 flex flex-col justify-center">
                             <div className="pl-2 text-xl">{v.name}</div>
@@ -62,7 +62,9 @@ export default function Index({sensors}) {
                         </Link>
                     </div>
                 </div>
-                {box}
+                <div className="flex flex-col gap-4 md:flex-row md:grid md:grid-cols-3">
+                    {box}
+                </div>
             </div>
         </>
     );
