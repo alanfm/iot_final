@@ -1,6 +1,33 @@
+import Button from "@/Components/dashboard/Button";
 import { Head, Link } from "@inertiajs/react";
+import { useEffect, useState } from "react";
 
-export default function Index() {
+export default function Index({sensors}) {
+    const [status, setStatus] = useState({})
+    const [box, setBox] = useState('')
+
+    useEffect(() => {
+        sensors.map(v => {
+            let t = status
+            t[v.slug] = v.status
+            setStatus(t)
+        })
+    }, [sensors])
+
+    useEffect(() => {
+        setBox(sensors.map((v, i) => {
+            let status = v.status == 1? 2: 1
+            return (<div key={i} className="p-2 ml-2 mr-2 bg-white rounded-md shadow-md">
+                    <div className="flex flex-wrap">
+                        <div className="flex-1 flex flex-col justify-center">
+                            <div className="pl-2 text-xl">{v.name}</div>
+                        </div>
+                        <Button status={v.status} href={route('sensor.toggle.status', {id: v.id})} data={{status}} />
+                    </div>
+                </div>)
+        }))
+    }, [sensors])
+
     return (
         <>
             <Head title="Home" />
@@ -35,45 +62,7 @@ export default function Index() {
                         </Link>
                     </div>
                 </div>
-                <div className="p-2 ml-2 mr-2 bg-white rounded-md shadow-md">
-                    <div className="flex flex-wrap">
-                        <div className="flex-1 flex flex-col justify-center">
-                            <div className="pl-2 text-xl">Sensor 1</div>
-                        </div>
-                        <div className="rounded-full w-14 h-14 bg-red-500 flex justify-center items-center text-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-8 h-8" viewBox="0 0 16 16">
-                                <path d="M9 11c.628-.836 1-1.874 1-3a4.98 4.98 0 0 0-1-3h4a3 3 0 1 1 0 6z"/>
-                                <path d="M5 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8m0 1A5 5 0 1 0 5 3a5 5 0 0 0 0 10"/>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-                <div className="p-2 ml-2 mr-2 bg-white rounded-md shadow-md">
-                    <div className="flex flex-wrap">
-                        <div className="flex-1 flex flex-col justify-center">
-                            <div className="pl-2 text-xl">Sensor 2</div>
-                        </div>
-                        <div className="rounded-full w-14 h-14 bg-green-500 flex justify-center items-center text-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="h-8 w-8" viewBox="0 0 16 16">
-                                <path d="M7 5H3a3 3 0 0 0 0 6h4a5 5 0 0 1-.584-1H3a2 2 0 1 1 0-4h3.416q.235-.537.584-1"/>
-                                <path d="M16 8A5 5 0 1 1 6 8a5 5 0 0 1 10 0"/>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-                <div className="p-2 ml-2 mr-2 bg-white rounded-md shadow-md">
-                    <div className="flex flex-wrap">
-                        <div className="flex-1 flex flex-col justify-center">
-                            <div className="pl-2 text-xl">Sensor 3</div>
-                        </div>
-                        <div className="rounded-full w-14 h-14 bg-green-500 flex justify-center items-center text-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="h-8 w-8" viewBox="0 0 16 16">
-                                <path d="M7 5H3a3 3 0 0 0 0 6h4a5 5 0 0 1-.584-1H3a2 2 0 1 1 0-4h3.416q.235-.537.584-1"/>
-                                <path d="M16 8A5 5 0 1 1 6 8a5 5 0 0 1 10 0"/>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
+                {box}
             </div>
         </>
     );
