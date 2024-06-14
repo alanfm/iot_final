@@ -89,7 +89,7 @@ def generateData(percentLux=0.1, percentTemp=0.3):
         label = 3 # falha na iluminação e ar condicionado
     elif (luxSensor <= (luxVal * (1 - percentLux)))  and luxStatus == 1 and lightingSwitch == 1:
         label = 2 # falha na iluminação
-    elif tempSensor >= (luxVal * (1 + percentTemp)) and climateSwitch == 1 and tempStatus == 1 and humVal >= 50:
+    elif tempSensor >= (tempVal * (1 + percentTemp)) and climateSwitch == 1 and tempStatus == 1 and humVal >= 50:
         label = 1 # falha no ar condicionado
     else:
         label = 0 # operação normal
