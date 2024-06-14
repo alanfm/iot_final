@@ -64,12 +64,12 @@ def getTempSensor(setTemp):
 """ 
     Gera os dados artificiais
 """
-def generateData(percentLux=0.1, percentTemp=0.2):    
-    lux = getEnvironmentLux()
-    temp = getEnvironmentTemperature()
-    humidity = getHumiditySensor()
-    tempSensor = getTempSensor(temp)
-    luxSensor = getLuxSensor(lux)
+def generateData(percentLux=0.1, percentTemp=0.3):    
+    luxVal = getEnvironmentLux()
+    tempVal = getEnvironmentTemperature()
+    humVal = getHumiditySensor()
+    tempSensor = getTempSensor(tempVal)
+    luxSensor = getLuxSensor(luxVal)
     luxStatus = getStatsFlags()
     humStatus = getStatsFlags()
     tempStatus = getStatsFlags()
@@ -81,20 +81,19 @@ def generateData(percentLux=0.1, percentTemp=0.2):
     if luxStatus == 0 or lightingSwitch == 0:
         luxSensor = 0
     
-    # Atribui o valor zero quando o status do sensor de temperatura estiver desligado 0
     if tempStatus == 0:
         tempSensor = 0
     
     # Critérios para rotular as falhas e operação normal
-    if (luxSensor <= (lux * (1 - percentLux)))  and luxStatus == 1 and lightingSwitch == 1 and tempSensor >= (temp * (1 + percentTemp)) and climateSwitch == 1 and tempStatus == 1 and humidity >= 50:
+    if (luxSensor <= (luxVal * (1 - percentLux)))  and luxStatus == 1 and lightingSwitch == 1 and tempSensor >= (temp * (1 + percentTemp)) and climateSwitch == 1 and tempStatus == 1 and humVal >= 50:
         label = 3 # falha na iluminação e ar condicionado
-    elif (luxSensor <= (lux * (1 - percentLux)))  and luxStatus == 1 and lightingSwitch == 1:
+    elif (luxSensor <= (luxVal * (1 - percentLux)))  and luxStatus == 1 and lightingSwitch == 1:
         label = 2 # falha na iluminação
-    elif tempSensor >= (temp * (1 + percentTemp)) and climateSwitch == 1 and tempStatus == 1 and humidity >= 50:
+    elif tempSensor >= (luxVal * (1 + percentTemp)) and climateSwitch == 1 and tempStatus == 1 and humVal >= 50:
         label = 1 # falha no ar condicionado
     else:
         label = 0 # operação normal
-    return (luxSensor, humidity, tempSensor, luxStatus, humStatus, tempStatus, lightingSwitch, climateSwitch, doorActuator, temp, lux, label)
+    return (luxSensor, humVal, tempSensor, luxStatus, humStatus, tempStatus, lightingSwitch, climateSwitch, doorActuator, tempVal, luxVal, label)
 
 """ 
     Gerando o número de amostras desejado
