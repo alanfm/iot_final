@@ -81,6 +81,7 @@ def generateData(percentLux=0.1, percentTemp=0.2):
     if luxStatus == 0 or lightingSwitch == 0:
         luxSensor = 0
     
+    # Atribui o valor zero quando o status do sensor de temperatura estiver desligado 0
     if tempStatus == 0:
         tempSensor = 0
     
