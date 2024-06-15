@@ -25,21 +25,21 @@ class HomeController extends Controller
 
     public function charts(Request $request)
     {
-        $lux = Sensor::where('slug', 'lux')->first()?->data()->orderBy('created_at', 'desc')->get()->take(10)->map(function ($data) {
+        $lux = Sensor::where('slug', 'lux')->first()?->data()->orderBy('created_at', 'desc')->get()->take(12)->map(function ($data) {
             return [
                 'value' => $data->value,
                 'date' => $data->created_at->format('H:i:s'),
             ];
         });
 
-        $hum = Sensor::where('slug', 'hum')->first()?->data()->orderBy('created_at', 'desc')->get()->take(20)->map(function ($data) {
+        $hum = Sensor::where('slug', 'hum')->first()?->data()->orderBy('created_at', 'desc')->get()->take(12)->map(function ($data) {
             return [
                 'value' => $data->value,
                 'date' => $data->created_at->format('H:i:s'),
             ];
         });
 
-        $temp = Sensor::where('slug', 'temp')->first()?->data()->orderBy('created_at', 'desc')->get()->take(20)->map(function ($data) {
+        $temp = Sensor::where('slug', 'temp')->first()?->data()->orderBy('created_at', 'desc')->get()->take(12)->map(function ($data) {
             return [
                 'value' => $data->value,
                 'date' => $data->created_at->format('H:i:s'),

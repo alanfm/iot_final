@@ -18,13 +18,13 @@ Route::resource('environment', EnvironmentController::class);
  *
  * response - json
  */
-Route::get('/environment/all', [HomeController::class, 'index'])->name('');
+Route::get('env/all', [EnvironmentController::class, 'all'])->name('environment.all');
 
 /**
  * lux_value
  * hum_value
  * temp_value
  */
-Route::post('/sensor/all', [HomeController::class, 'index'])->name('');
+Route::post('sensor/all', [SensorController::class, 'all'])->name('sensor.all');
 
 

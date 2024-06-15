@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreEnvironmentRequest;
 use App\Http\Requests\UpdateEnvironmentRequest;
 use App\Models\Environment;
+use Illuminate\Http\Response;
 use Inertia\Inertia;
 
 class EnvironmentController extends Controller
@@ -70,5 +71,22 @@ class EnvironmentController extends Controller
     public function destroy(Environment $environment)
     {
         //
+    }
+
+    public function all()
+    {
+        $environment = Environment::first();
+        $sensors = [];
+        foreach($environment->sensors as $sensor) {
+            $sensors[$sensor->slug] = $sensor->status == 2? true: false;
+        }
+
+        $response = [
+            'env_lux' => $environment->lux,
+            'env_temp' => $environment->temp,
+        ];
+
+
+        return response()->json(array_merge($response, $sensors));
     }
 }
