@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Environment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,6 +21,8 @@ class SensorFactory extends Factory
             'name' => $this->faker->word,
             'status' => $this->faker->randomElement([1, 2]),
             'slug' => $this->faker->slug,
+            'type' => $this->faker->randomElement([1,2]),
+            'environment_id' => Environment::all()->random()->id,
         ];
     }
 }

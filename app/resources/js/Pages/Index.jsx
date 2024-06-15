@@ -1,8 +1,8 @@
-import Button from "@/Components/dashboard/Button";
+import Sensor from "@/Components/Sensor";
 import { Head, Link } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
-export default function Index({sensors}) {
+export default function Index({sensors, environments}) {
     const [status, setStatus] = useState({})
     const [box, setBox] = useState('')
 
@@ -15,18 +15,55 @@ export default function Index({sensors}) {
     }, [sensors])
 
     useEffect(() => {
-        setBox(sensors.map((v, i) => {
-            let status = v.status == 1? 2: 1
-            return (<div key={i} className="p-2 ml-2 mr-2 bg-white rounded-md shadow-md md:flex-1">
-                    <div className="flex flex-wrap">
-                        <div className="flex-1 flex flex-col justify-center">
-                            <div className="pl-2 text-xl">{v.name}</div>
-                        </div>
-                        <Button status={v.status} href={route('sensor.toggle.status', {id: v.id})} data={{status}} />
+        setBox(environments.map((v, i) => {
+            let sensor = []
+            let actuator = []
+            v.sensors.map((v, i) => {
+                if (v.type == 1) {
+                    sensor.push(<Sensor key={i + 'sensor'} data={v} />)
+                } else {
+                    actuator.push(<Sensor key={i + 'actuator'} data={v} />)
+                }
+            })
+            return (
+            <div key={i + 'env'} className="flex flex-col gap-2 p-2 ml-2 mr-2 bg-white rounded-md shadow-md md:w-1/2 lg:w-1/3">
+                <div className="flex flex-col gap-4">
+                    <div className="flex justify-between">
+                        <span className="text-lg font-semibold">{v.name}</span>
+                        <Link href={route('environment.edit', {id: v.id})} className="flex justify-center items-center gap-1 text-white bg-yellow-500 px-1 rounded-full w-10 h-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="w-5 h-5" viewBox="0 0 16 16">
+                                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
+                            </svg>
+                        </Link>
                     </div>
-                </div>)
+                    <div className="grid grid-cols-2">
+                        <div>
+                            <span className="font-light">Luminosidade: </span><span>{v.lux}</span>
+                        </div>
+                        <div>
+                            <span className="font-light">Temperatura: </span><span>{v.temp} °C</span>
+                        </div>
+                    </div>
+                </div>
+                <div className="flex flex-col">
+                    <div className="flex flex-col border border-gray-400 rounded-md py-1 px-2">
+                        <div className="">Atuadores</div>
+                        <div className="">
+                            {actuator}
+                        </div>
+                    </div>
+                </div>
+                <div className="flex flex-col">
+                    <div className="flex flex-col border border-gray-400 rounded-md py-1 px-2">
+                        <div className="">Sensores</div>
+                        <div className="">
+                            {sensor}
+                        </div>
+                    </div>
+                </div>
+            </div>)
         }))
-    }, [sensors])
+    }, [environments])
 
     return (
         <>
@@ -42,17 +79,6 @@ export default function Index({sensors}) {
                                 </svg>
                             </span>
                         </Link>
-                        <span className="flex justify-center flex-1 pb-2 border-b-2 border-transparent">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="w-8 h-8" viewBox="0 0 16 16">
-                                <path fillRule="evenodd" d="M6 3.5A1.5 1.5 0 0 1 7.5 2h1A1.5 1.5 0 0 1 10 3.5v1A1.5 1.5 0 0 1 8.5 6v1H14a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0v-1A.5.5 0 0 1 2 7h5.5V6A1.5 1.5 0 0 1 6 4.5zM8.5 5a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5zM0 11.5A1.5 1.5 0 0 1 1.5 10h1A1.5 1.5 0 0 1 4 11.5v1A1.5 1.5 0 0 1 2.5 14h-1A1.5 1.5 0 0 1 0 12.5zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm4.5.5A1.5 1.5 0 0 1 7.5 10h1a1.5 1.5 0 0 1 1.5 1.5v1A1.5 1.5 0 0 1 8.5 14h-1A1.5 1.5 0 0 1 6 12.5zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm4.5.5a1.5 1.5 0 0 1 1.5-1.5h1a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
-                            </svg>
-                        </span>
-                        <span className="flex justify-center flex-1 pb-2 border-b-2 border-transparent">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="w-8 h-8" viewBox="0 0 16 16">
-                                <path d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V9.5a.5.5 0 0 1 1 0v1.585a1.5 1.5 0 0 1 1 1.415"/>
-                                <path d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1"/>
-                            </svg>
-                        </span>
                         <Link href="/charts" className="flex justify-center flex-1 pb-2 border-b-2 border-transparent">
                             <span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="w-8 h-8" viewBox="0 0 16 16">
@@ -62,7 +88,7 @@ export default function Index({sensors}) {
                         </Link>
                     </div>
                 </div>
-                <div className="flex flex-col gap-4 md:flex-row md:grid md:grid-cols-3">
+                <div className="flex flex-col gap-4 md:flex-row">
                     {box}
                 </div>
             </div>

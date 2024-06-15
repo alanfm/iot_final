@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Environment;
 use App\Models\Sensor;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
@@ -10,8 +11,15 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
+        $environment = Environment::with(['sensors' => function ($query) {
+            $query->with(['data' => function($query) {
+                $query->orderBy('id', 'desc')->limit(1)->get();
+            }]);
+        }])->get()->toArray();
+
         return Inertia::render('Index', [
-            'sensors' => Sensor::select('id', 'name', 'status', 'slug')->get(),
+            'environments' => $environment,
+            'sensors' => Sensor::select('id', 'name', 'status', 'slug', 'type')->get(),
         ]);
     }
 

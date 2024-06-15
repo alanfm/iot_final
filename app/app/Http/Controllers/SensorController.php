@@ -12,6 +12,7 @@ class SensorController extends Controller
     {
         try {
             $sensor->update(['status' => $request->status]);
+            // Adicionar o comando para mensagem do MQTT
             return to_route('home');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());

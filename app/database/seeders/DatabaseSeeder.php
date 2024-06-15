@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
+            EnvironmentSeeder::class,
             SensorSeeder::class,
             DataSeeder::class,
         ]);

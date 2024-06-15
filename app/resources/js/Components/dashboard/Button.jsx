@@ -13,7 +13,7 @@ export default function Button({status, href, data}) {
 
 
     return (
-        <Link href={href} method="post" as="button" type="button" data={data}>
+        <Link href={href} method="post" as="button" type="button" data={data} preserveScroll>
             <div className={"rounded-full w-14 h-14 flex justify-center items-center text-white " + color}>
                 {status == 1?
                 (<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="h-8 w-8" viewBox="0 0 16 16">
