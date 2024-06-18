@@ -11,24 +11,26 @@ class SensorController extends Controller
 {
     public function toggleStatus(UpdateSensorRequest $request, Sensor $sensor)
     {
-        $mqtt = [
+        $_mqtt = [
             'air' => [
-                'topic' => ['cmnd/IoT-UFC/arcond/irsend'],
+                'topic' => 'cmnd/IoT-UFC/arcond/irsend',
                 'cmd' => [
                     '{\"Protocol\":\"COOLIX\",\"Bits\":24,\"Data\":\"0xB27BE0\",\"DataLSB\":\"0x4DDE07\",\"Repeat\":0,\"IRHVAC\":{\"Vendor\":\"COOLIX\",\"Model\":-1,\"Mode\":\"Cool\",\"Power\":\"Off\",\"Celsius\":\"On\",\"Temp\":17,\"FanSpeed\":\"Auto\",\"SwingV\":\"Off\",\"SwingH\":\"Off\",\"Quiet\":\"Off\",\"Turbo\":\"Off\",\"Econo\":\"Off\",\"Light\":\"Off\",\"Filter\":\"Off\",\"Clean\":\"Off\",\"Beep\":\"Off\",\"Sleep\":-1}}',
-                    '{\"Protocol\":\"COOLIX\",\"Bits\":24,\"Data\":\"0xB2BF00\",\"DataLSB\":\"0x4DFD00\",\"Repeat\":0,\"IRHVAC\":{\"Vendor\":\"COOLIX\",\"Model\":-1,\"Mode\":\"Cool\",\"Power\":\"On\",\"Celsius\":\"On\",\"Temp\":17,\"FanSpeed\":\"Auto\",\"SwingV\":\"Off\",\"SwingH\":\"Off\",\"Quiet\":\"Off\",\"Turbo\":\"Off\",\"Econo\":\"Off\",\"Light\":\"Off\",\"Filter\":\"Off\",\"Clean\":\"Off\",\"Beep\":\"Off\",\"Sleep\"']],
+                    '{\"Protocol\":\"COOLIX\",\"Bits\":24,\"Data\":\"0xB2BF00\",\"DataLSB\":\"0x4DFD00\",\"Repeat\":0,\"IRHVAC\":{\"Vendor\":\"COOLIX\",\"Model\":-1,\"Mode\":\"Cool\",\"Power\":\"On\",\"Celsius\":\"On\",\"Temp\":17,\"FanSpeed\":\"Auto\",\"SwingV\":\"Off\",\"SwingH\":\"Off\",\"Quiet\":\"Off\",\"Turbo\":\"Off\",\"Econo\":\"Off\",\"Light\":\"Off\",\"Filter\":\"Off\",\"Clean\":\"Off\",\"Beep\":\"Off\",\"Sleep\":-1}}']],
             'light' => [
-                'topic' => ['cmnd/IoT-UFC/ligth/power'],
+                'topic' => 'cmnd/IoT-UFC/ligth/power',
                 'cmd' => ['ON', 'OFF'],
             ],
             'door' => [
-                'topic' => ['cmnd/IoT-UFC/door/power'],
+                'topic' => 'cmnd/IoT-UFC/door/power',
                 'cmd' => ['ON', 'OFF'],
             ],
         ];
 
         try {
-            MQTT::publish($mqtt[$sensor->slug]['topic'], $mqtt[$sensor->slug]['cmd'][$request->status == 1? 0: 1]);
+            //dd($mqtt[$sensor->slug]['cmd'][$request->status == 2? 0: 1]);
+            $mqtt = MQTT::connection();
+            $mqtt->publish($_mqtt[$sensor->slug]['topic'], $_mqtt[$sensor->slug]['cmd'][$request->status == 2? 0: 1]);
             $sensor->update(['status' => $request->status]);
             return to_route('home');
         } catch (\Exception $e) {
