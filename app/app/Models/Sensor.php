@@ -11,6 +11,9 @@ class Sensor extends Model
 {
     use HasFactory;
 
+    public const SENSOR = 1;
+    public const ACTUATOR = 2;
+
     protected $fillable = [
         'name',
         'status',

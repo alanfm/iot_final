@@ -28,9 +28,11 @@ class SensorController extends Controller
         ];
 
         try {
-            //dd($mqtt[$sensor->slug]['cmd'][$request->status == 2? 0: 1]);
-            $mqtt = MQTT::connection();
-            $mqtt->publish($_mqtt[$sensor->slug]['topic'], $_mqtt[$sensor->slug]['cmd'][$request->status == 2? 0: 1]);
+            if ($sensor->type == Sensor::ACTUATOR) {
+                $mqtt = MQTT::connection();
+                $mqtt->publish($_mqtt[$sensor->slug]['topic'], $_mqtt[$sensor->slug]['cmd'][$request->status == 2? 0: 1]);
+            }
+
             $sensor->update(['status' => $request->status]);
             return to_route('home');
         } catch (\Exception $e) {
