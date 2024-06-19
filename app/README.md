@@ -42,15 +42,24 @@ docker run --rm \
 
 * Se preferir, crie um alias para o comando ``sail``.
   * Edit o arquivo de configuração do bash
-    * ```nano .bashrc```
+    ```shell
+    nano .bashrc
+    ```
   * Adicione a seguinte linha nos alias do bash
-    * ```alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'```
+    ```shell
+    alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
+    ```
   * Salve as alterações e execute o seguinte comando no terminal
-    * ```source ~/.bashrc```
+    ```shell
+    source ~/.bashrc
+    ```
   * Agora você pode usar o comando ``sail`` no terminal
-    * Ex: ``sail up -d``
+    ```shell
+    # Exemplo
+    sail up -d
+    ```
 
-6. Gerar a chave de segurança do Laravel
+1. Gerar a chave de segurança do Laravel
 
 ```shell
 ./vendor/bin/sail artisan key:generate
@@ -75,7 +84,9 @@ docker run --rm \
 ```
 
 * No desenvolvimento da interface usar o comando
-  * ``./vendor/bin/sail npm run dev``
+    ```shell
+    ./vendor/bin/sail npm run dev
+    ```
 
-10.  Acessar o app pelo seguinte link: http://localhost/
+1.   Acessar o app pelo seguinte link: http://localhost/
      * Quando tiver o usando o ``ngrok`` mudar o valor de ``APP_URL`` no arquivo de configuração do Laravel (``.env``), para o endereço gerado e refazer o comando do item 9.
