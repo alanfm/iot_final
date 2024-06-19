@@ -18,11 +18,5 @@ class EnvironmentSeeder extends Seeder
             'lux' => 350,
             'temp' => 25
         ]);
-        
-        Environment::create([
-            'name' => 'Escritório',
-            'lux' => 250,
-            'temp' => 20
-        ]);
     }
 }
