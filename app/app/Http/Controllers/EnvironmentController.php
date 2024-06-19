@@ -83,6 +83,7 @@ class EnvironmentController extends Controller
         }
 
         $response = [
+            'name' => $environment->name,
             'env_lux' => $environment->lux,
             'env_temp' => $environment->temp,
         ];
