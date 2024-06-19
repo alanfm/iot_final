@@ -1,16 +1,81 @@
-# Instalação do sistema no Raspbarry
+# Instalação do Laravel
 
-* Nginx
-  * ``sudo apt install nginx``
+## Usando Docker
 
-* PHP
-  * Seguir esse tutorial: https://xavier.arnaus.net/blog/install-php-8-2-into-a-raspberry-pi-4-with-apache2-support
+Fazer os comando no terminal e ter o docker instalado na máquina
 
-* Composer
-  * ``sudo apt install composer``
+1. Fazer o clone no repositório
 
-* MySQL
-  * Seguir esse tutorial: https://pimylifeup.com/raspberry-pi-mysql/
+```shell
+git clone git@github.com:alanfm/iot_final.git
+```
 
-* Criar integração Nginx Laravel
-  * Seguir esse tutorial: https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-laravel-with-nginx-on-ubuntu-20-04
+2. Entrar no diretório do aplicativo
+
+```shell
+cd iot_final/app
+```
+
+4. Fazer a cópia do arquivo de configuração do Laravel
+
+```shell
+cp .env.example .env
+```
+
+5. Fazer a instalação dos pacotes do Laravel
+
+```shell
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$(pwd):/var/www/html" \
+    -w /var/www/html \
+    laravelsail/php83-composer:latest \
+    composer install --ignore-platform-reqs
+```
+
+
+5. Subir os containers do Docker para o Laravel (PHP e Banco de dados)
+
+```shell
+./vendor/bin/sail up -d
+```
+
+* Se preferir, crie um alias para o comando ``sail``.
+  * Edit o arquivo de configuração do bash
+    * ```nano .bashrc```
+  * Adicione a seguinte linha nos alias do bash
+    * ```alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'```
+  * Salve as alterações e execute o seguinte comando no terminal
+    * ```source ~/.bashrc```
+  * Agora você pode usar o comando ``sail`` no terminal
+    * Ex: ``sail up -d``
+
+6. Gerar a chave de segurança do Laravel
+
+```shell
+./vendor/bin/sail artisan key:generate
+```
+
+7. Fazer a migração do banco de dados e povoar com dados fake
+
+```shell
+./vendor/bin/sail artisan migrate:fresh --seed
+```
+
+8. Instalar os pacotes do javascript
+
+```shell
+./vendor/bin/sail npm install
+```
+
+9. Fazer a compilação dos arquivos do javascript
+
+```shell
+./vendor/bin/sail npm run build
+```
+
+* No desenvolvimento da interface usar o comando
+  * ``./vendor/bin/sail npm run dev``
+
+10.  Acessar o app pelo seguinte link: http://localhost/
+     * Quando tiver o usando o ``ngrok`` mudar o valor de ``APP_URL`` no arquivo de configuração do Laravel (``.env``), para o endereço gerado e refazer o comando do item 9.
