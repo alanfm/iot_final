@@ -15,8 +15,8 @@ class SensorController extends Controller
             'air' => [
                 'topic' => 'cmnd/IoT-UFC/arcond/irsend',
                 'cmd' => [
-                    '{\"Protocol\":\"COOLIX\",\"Bits\":24,\"Data\":\"0xB27BE0\",\"DataLSB\":\"0x4DDE07\",\"Repeat\":0,\"IRHVAC\":{\"Vendor\":\"COOLIX\",\"Model\":-1,\"Mode\":\"Cool\",\"Power\":\"Off\",\"Celsius\":\"On\",\"Temp\":17,\"FanSpeed\":\"Auto\",\"SwingV\":\"Off\",\"SwingH\":\"Off\",\"Quiet\":\"Off\",\"Turbo\":\"Off\",\"Econo\":\"Off\",\"Light\":\"Off\",\"Filter\":\"Off\",\"Clean\":\"Off\",\"Beep\":\"Off\",\"Sleep\":-1}}',
-                    '{\"Protocol\":\"COOLIX\",\"Bits\":24,\"Data\":\"0xB2BF00\",\"DataLSB\":\"0x4DFD00\",\"Repeat\":0,\"IRHVAC\":{\"Vendor\":\"COOLIX\",\"Model\":-1,\"Mode\":\"Cool\",\"Power\":\"On\",\"Celsius\":\"On\",\"Temp\":17,\"FanSpeed\":\"Auto\",\"SwingV\":\"Off\",\"SwingH\":\"Off\",\"Quiet\":\"Off\",\"Turbo\":\"Off\",\"Econo\":\"Off\",\"Light\":\"Off\",\"Filter\":\"Off\",\"Clean\":\"Off\",\"Beep\":\"Off\",\"Sleep\":-1}}']],
+                    "{\"Protocol\":\"COOLIX\",\"Bits\":24,\"Data\":\"0xB27BE0\",\"DataLSB\":\"0x4DDE07\",\"Repeat\":0,\"IRHVAC\":{\"Vendor\":\"COOLIX\",\"Model\":-1,\"Mode\":\"Cool\",\"Power\":\"Off\",\"Celsius\":\"On\",\"Temp\":17,\"FanSpeed\":\"Auto\",\"SwingV\":\"Off\",\"SwingH\":\"Off\",\"Quiet\":\"Off\",\"Turbo\":\"Off\",\"Econo\":\"Off\",\"Light\":\"Off\",\"Filter\":\"Off\",\"Clean\":\"Off\",\"Beep\":\"Off\",\"Sleep\":-1}}",
+                    "{\"Protocol\":\"COOLIX\",\"Bits\":24,\"Data\":\"0xB2BF00\",\"DataLSB\":\"0x4DFD00\",\"Repeat\":0,\"IRHVAC\":{\"Vendor\":\"COOLIX\",\"Model\":-1,\"Mode\":\"Cool\",\"Power\":\"On\",\"Celsius\":\"On\",\"Temp\":17,\"FanSpeed\":\"Auto\",\"SwingV\":\"Off\",\"SwingH\":\"Off\",\"Quiet\":\"Off\",\"Turbo\":\"Off\",\"Econo\":\"Off\",\"Light\":\"Off\",\"Filter\":\"Off\",\"Clean\":\"Off\",\"Beep\":\"Off\",\"Sleep\":-1}}"]],
             'light' => [
                 'topic' => 'cmnd/IoT-UFC/ligth/power',
                 'cmd' => ['ON', 'OFF'],

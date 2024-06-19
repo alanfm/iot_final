@@ -10,6 +10,8 @@ Route::get('/charts', [HomeController::class, 'charts'])->name('charts');
 Route::post('/sensor/toggle/status/{sensor:id}', [SensorController::class, 'toggleStatus'])->name('sensor.toggle.status');
 
 Route::resource('environment', EnvironmentController::class);
+// Route::get('environment/{id:environment}/edit', [EnvironmentController::class, 'edit'])->name('environment.edit');
+// Route::put('environment/{id:environment}/edit', [EnvironmentController::class, 'update'])->name('environment.update');
 
 /**
  * Status Atuadores

@@ -59,7 +59,8 @@ class EnvironmentController extends Controller
     {
         try {
             $environment->update($request->validated());
-            return to_route('home')->with('success','Ambiente Atualizado com sucesso!');
+            // dd(to_route('home'));
+            return to_route('home');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }
