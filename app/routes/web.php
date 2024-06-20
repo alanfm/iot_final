@@ -18,6 +18,7 @@ Route::resource('environment', EnvironmentController::class);
  * Status Sensores
  * Ambiente - lux e temp
  * name
+ * id
  *
  * response - json
  */
