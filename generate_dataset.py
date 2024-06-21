@@ -112,6 +112,6 @@ def generateData(percentLux=0.05, percentTemp=0.1):
 
 #     print("Arquivo CSV gerado com sucesso.")
 
-# data = generateDataset(1)
+# data = generateDataset(10000000)
 # saveDataset(data)
 # print("Algoritmo de geração de dados finalizado.")
