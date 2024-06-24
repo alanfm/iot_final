@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSensorRequest;
 use App\Http\Requests\UpdateSensorRequest;
 use App\Models\Sensor;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Process;
 use PhpMqtt\Client\Facades\MQTT;
 
 class SensorController extends Controller
@@ -50,6 +52,15 @@ class SensorController extends Controller
             $luxSensor->data()->create(['value' => $request->lux_value]);
             $tempSensor->data()->create(['value' => $request->temp_value]);
             $humSensor->data()->create(['value' => $request->hum_value]);
+
+            /**
+             * Rodar no shell
+             */
+            $cmd = sprintf('%s $s %s %s', 'python3 ia.py', $request->lux_value, $request->temp_value, $request->hum_value);
+
+            $result = Process::path(base_path())->run($cmd);
+            Log::info($result->output());
+            Log::info($result->errorOutput());
 
             return response()->json(['message' => 'success'], 201);
         } catch (\Exception $e) {
