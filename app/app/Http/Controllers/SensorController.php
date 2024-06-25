@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSensorRequest;
 use App\Http\Requests\UpdateSensorRequest;
 use App\Models\Sensor;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Process;
 use PhpMqtt\Client\Facades\MQTT;
@@ -30,7 +32,7 @@ class SensorController extends Controller
         ];
 
         try {
-            if ($sensor->type == Sensor::ACTUATOR) {
+            if ($sensor->type == Sensor::ACTUATOR and env('MQTT_HOST') != '') {
                 $mqtt = MQTT::connection();
                 $mqtt->publish($_mqtt[$sensor->slug]['topic'], $_mqtt[$sensor->slug]['cmd'][$request->status == 2? 0: 1]);
             }
