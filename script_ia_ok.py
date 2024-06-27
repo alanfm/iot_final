@@ -1,13 +1,13 @@
-# import Adafruit_DHT
 import time
 import requests
-import serial
 import joblib
 import numpy as np
 import telepot
 import generate_dataset as gd
+
+
 """
-Script configurado para rodar em máquina virtual do python
+Script configurado para rodar em ambiente virtual do python
 source /home/mosquitto/sklearn-env/bin/activate
 
 OBS.: Todas as bibliotecas para rodar o script estão instalados nesta máquina.
@@ -41,52 +41,14 @@ joblib version: 1.4.2
 bot = telepot.Bot('7221900994:AAGfe6-AIACarNB9XisZH553VGn31xaSrj8')
 chat_id = 5597495193
 
-# URL para API GET e POST
-URL = 'https://0c74-191-7-192-77.ngrok-free.app/'
+# URL para API GET e POST criada a partir do ngrok; comando ngrok http http://localhost:80
+URL = 'https://e067-200-129-37-2.ngrok-free.app/'
 POST = URL+'/sensor/all' #url para get via http dos dados
 GET = URL+'/env/all' #url para get via http dos dados
 
-
-# Configurações do sensor
-# sensor = Adafruit_DHT.DHT11
-pino_sensor = 25  # Número do pino GPIO onde o sensor está conectado
-
-# Configuração da porta serial
-# ser = serial.Serial(
-#     port='/dev/serial0',  # Porta serial 
-#     baudrate=115200,      
-#     timeout=1            
-# )
-
-def generateDataSensorRandom(lux,temp):
-  # variáveis para coletar os dados dos sensores
-  # sensores = gd.generateData(l)
-  lux_s = gd.getLuxSensor(lux)
-  temp_s = gd.getTempSensor(temp)
-  hum_s = gd.getHumiditySensor()
-  # dados dos sensores para post
-  data_post = {
-          'lux_value': lux_s,
-          'hum_value': hum_s,
-          'temp_value': temp_s
-          }
-  return lux_s,temp_s,hum_s,data_post
-
-def postData(post, data):
-  try:
-      # Enviar POST request
-      response = requests.post(post, json=data)
-
-      # Verificar a resposta
-      if response.status_code == 201:
-          print(f"POST realizado com sucesso para {post}")
-      else:
-          print(f"Falha ao enviar POST. Código de status: {response.status_code}")
-  except requests.exceptions.RequestException as e:
-      print(f"Erro durante o POST request: {e}")
       
 # função get para coletar os dados do banco de dados
-def getData(get, lux, hum, temp):
+def getData(get):
   # realizando requisição GET
     r = requests.get(get) # executa o get para coleta de dados
     print(r)
@@ -96,20 +58,22 @@ def getData(get, lux, hum, temp):
     if r.status_code == 200:
         # Analisar a resposta JSON
         data = r.json()
-        env_lux = data.get('env_lux')
-        env_temp = data.get('env_temp')
-        stat_lux = data.get('lux')
-        stat_hum = data.get('hum')
-        stat_temp = data.get('temp')
-        door = data.get('door')
-        light = data.get('light')
-        air = data.get('air')
-        lux_s = lux
-        hum_s = hum
-        temp_s = temp
+        print("Tipo do r.json: "+str(data))
+        env_lux = data['env_lux']
+        env_temp = data['env_temp']
+        stat_lux = data['lux']['status']
+        stat_hum = data['hum']['status']
+        stat_temp = data['temp']['status']
+        door = data['door']['status']
+        light = data['light']['status']
+        air = data['air']['status']
+        lux_s = data['lux']['value']
+        hum_s = data['hum']['value']
+        temp_s = data['temp']['value']
         name = data.get('name')
         id = data.get('id')
         
+        # Condições para habilitar ou desativar os sensores e coleta de dados
         if light == False:
           lux_s = 0
         if stat_lux == False:
@@ -125,14 +89,14 @@ def getData(get, lux, hum, temp):
         return features, name, id
       
 # função para realizar as previsoes
-def predictions(get,lux,hum,temp):
+def predictions(get):
   # Carregando o modelo 
   modelo = joblib.load('/home/geraldo/Documentos/python_projects/iot-ia/mlp_smart_enviroument.joblib')
   # modelo = joblib.load('/home/mosquitto/modelo_treinado_mlp.joblib')
   # Fazendo a previsão
-  features, name, id = getData(get, lux, hum, temp)
+  features, name, id = getData(get)
   features_array = np.array([features]) # transforma a lista em um array
-  prediction = modelo.predict(features_array)
+  prediction = modelo.predict(features_array) # realiza as predições
   
   # Mostrando o resultado
   print("\nFeatures via http e medições: "+str(features))
@@ -145,8 +109,8 @@ def decisionAI(prediction,name,id):
     if prediction[0] == 0:
       print("Operação Normal")
     elif prediction[0] == 1:
-      print("Falha climatização no ambiente "+str(name)+".")  # Enviar a tomada de decisões e o dataframe da falha para nuvem
       bot.sendMessage(chat_id=chat_id, text="Falha na climatização no ambiente "+str(name)+" (id: "+str(id)+").")
+      print("Falha climatização no ambiente "+str(name)+".")  # Enviar a tomada de decisões e o dataframe da falha para nuvem
       thinksPeak(prediction[0],id)
     elif prediction[0] == 2:
       print("Falha na iluminação")  # Enviar a tomada de decisões e o dataframe da falha para nuvem
@@ -159,6 +123,7 @@ def decisionAI(prediction,name,id):
     else:
       print("Mensagem de teste..")
 
+# Função para envio de dados ao thinkspeak
 def thinksPeak(label,id_amb):
   # Defina a API key e os dados
   api_key = 'WD8CEEVP3R51MSXM'
@@ -166,7 +131,7 @@ def thinksPeak(label,id_amb):
       'field1': id_amb,
       'field2': label,
   }
-  
+  # url para realizar post no canal do thinkspeak criado
   url = f"https://api.thingspeak.com/update?api_key={api_key}"
   for field, value in post.items():
       url += f"&{field}={value}"
@@ -178,52 +143,7 @@ def thinksPeak(label,id_amb):
   else:
       return f"Falha ao enviar POST. Código de status: {response.status_code}"
 
-
-
-# função para ler sensores via serial
-def serialData():
-  lux, hum, temp = 0
-  data_post = {
-          'lux_value': lux,
-          'hum_value': hum,
-          'temp_value': temp
-          }
-  # umid_s, temp_s = Adafruit_DHT.read_retry(sensor, pino_sensor) # faz a leitura do sensor DHT11
-  #   if umid_s is not None and temp_s is not None:
-  #       lux_s = 0
-  #       if ser.in_waiting > 0:
-  #           # Lê a linha da serial
-  #           lux_s = ser.readline().decode('utf-8').rstrip() # faz a leitura do luximetro pela serial
-  #           print(f"Iluminância: {lux_s}")
-    
-  #         print('Umidade: {0:0.1f}%'.format(umid_s))
-  #         print('Temperatura: {0:0.1f}°C'.format(temp_s)
-  # Efetua a leitura do sensor
-  # umid, temp = Adafruit_DHT.read_retry(sensor, pino_sensor);
-  #  # Caso leitura esteja ok, mostra os valores na tela
-  # if umid is not None and temp is not None:
-  #   lux_s = 0
-  #   if ser.in_waiting > 0:
-  #       # Lê a linha da serial
-  #     lux_s = ser.readline().decode('utf-8').rstrip() # faz a leitura do luximetro pela serial
-  #     print(f"\nIluminância: {lux_s}"+" lux")
-  #   print ("\nTemperatura: "+str(temp));
-  #   print ("\nUmidade: "+str(umid))
-  #   print ("Aguarda 5 segundos para efetuar nova leitura...n");
-  #   time.sleep(1)
-  # else:
-  #    # Mensagem de erro de comunicacao com o sensor
-  #    print("Falha ao ler dados do DHT11 !!!")
-  # print("Retorna dados da serial.")
   return lux,hum,temp,data_post
-
-#bot telegram
-def handle(msg):
-  chat_id = msg['chat']['id']
-  command = msg['text']
-  print('got command: %s' % command)
-  
-# time.sleep(2)
 
 while True:
     """ 
@@ -231,16 +151,11 @@ while True:
     lux | humidity | temperature | ligthing_switch | climate_switch | door_actuator | lux_status | 
     humidity_status | temperature_status | enviroment_temperature | enviroment_lux
     """
-    # gerando dados randomicos para teste
-    l,h,t,data_post = generateDataSensorRandom(350,26)
     # coletando os dados dos sensores
-    features, name, id = getData(GET,l,h,t)
-    # enviado informações via request POST para banco de dados
-    postData(POST, data_post)
+    features, name, id = getData(GET)
     # realizando previsoes
-    prediction = predictions(GET,l,h,t)
+    prediction = predictions(GET)
     # tomada de decisão da IA
     decisionAI(prediction, name, id)
-    # bot.getUpdates()
-    #delay de 1s
-    time.sleep(1)
+    #delay de 5s
+    time.sleep(5)
