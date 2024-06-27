@@ -11,3 +11,8 @@ Dentro da branch generate_v2 temos alguns scripts e arquivos como segue descriç
 - projeto_final_iot_mlp.ipynb: Arquivo com script para treinamento da IA com colab usando MLP;
 - script_ia_ok: Arquivo com script de tomada de decisões da IA;
 - script_raspberry_sensores: Arquivo com script para leitura dos sensores e envio dos dados para banco de dados em nuvem.
+
+
+OBS: O firmware dos SONOFF's e SmartIR são opensource da TASMOTTA. Estes facilitam a implementação do MQTT e dispositivos da ESPRESSIF para atuadores a relé e infravermelho.
+
+link documentação TASMOTTA: https://tasmota.github.io/docs/
