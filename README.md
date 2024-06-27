@@ -3,6 +3,7 @@
 Aplicação para o projeto final da disciplina de IoT.
 Dentro da branch generate_v2 temos alguns scripts e arquivos como segue descrição abaixo:
 
+- Esquematico_luximetro.pdf: Diagrama do circuito usado para o luxímetro;
 - dataset_iot_pf.csv: arquivo com a base de dados geradas artificialmente para treinamento da IA;
 - generate_dataset.py: Arquivo com script para gerar os dados artificialmente;
 - luximetro_arduinoNamo.ino: Script no arduino nano para leitura do sensor LDR, conversão para lux e envio dos dados via serial;
