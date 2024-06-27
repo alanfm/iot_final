@@ -23,7 +23,7 @@ def generateLabel():
 
 def getEnvironmentLux():
     # Lista de valores de média de ambientes
-    environmentLuxAverageList = [200, 250, 300, 350, 400, 450]
+    environmentLuxAverageList = [200, 250, 300, 350, 400, 450, 500]
     # Seleção aleatória do valor da luminosidade média do ambiente
     return environmentLuxAverageList[random.randint(0, len(environmentLuxAverageList)-1)]
 
@@ -97,6 +97,6 @@ def saveDataset(data):
 
     print("Arquivo CSV gerado com sucesso.")
 
-data = generateDataset(10)
+data = generateDataset(1000000)
 saveDataset(data)
 print("Algoritmo de geração de dados finalizado.")
