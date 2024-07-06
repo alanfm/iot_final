@@ -1,5 +1,6 @@
 # Smart Environment
-Sistema de monitoramento de iluminação e climatização de ambientes
+>Sistema de monitoramento de iluminação e climatização de ambientes
+
 O projeto desenvolvido consiste na implementação de um _Smart Enviroment_ utilizando conceitos de IoT e IA. Neste ambiente, podemos controlar os atuadores de porta, iluminação e climatização por meio de uma aplicação Web, para _Smartphones_ e computadores. Além disso, a solução conta com um sistema de monitoramento de dados de sensores de luminosidade, umidade e temperatura de um ambiente. A coleta dos dados é realizada pelos sensores presente no ambiente, que são enviadas para um servidor em tempo real. Esses dados são utilizados e aplicados na IA desenvolvida para gestão dos alertas. Desta forma, podemos monitorar a iluminância média do local, temperatura e umidade com o objetivo de detectar possíveis falhas para acionar o setor de manutenção de forma automatizada, otimizando serviços de manutenção dos ambientes. 
 
 ## Arquitetura do Projeto
