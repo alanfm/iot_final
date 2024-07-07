@@ -18,17 +18,16 @@ Os alertas são enviados para um bot no Telegram com os dados do ambiente e o pr
 encontrado. 
 <div align="center"><img src="/figures/bot.png" alt="image" width="400" height="auto"></div>
 
+## Descritivo da Documentação do Projeto
+
+A documentação, scripts e informações importantes estão organizadas da seguinte forma no repositório:
+
+- SCRIPTS: Estão os scripts usados no firmware do arduino nano para o luxímetro, scripts do raspberry para leitura dos sensores e análise de dados no dispostivo para tomada de decisão da IA já treinada;
+- SCHEMATICS: Esquemático do circuito montado com sensor LDR com divisor de tensão para leitura do dados posteriormente convertidos em lux e o circuito para entrada do raspberry pi que opera com 3,3V;
+- app: Repositório com scripts do backend e frontend da aplicação WEB;
+- figures: Todas as figuras utilizadas para apresentar o sistema;
+- dataset: Respositório com scripts para geração dos dados artificiais, treinamento dos algoritmos de AI e arquivo com AI treinada para embarcar no raspberry pi.
+
 ## Observações Importantes
 
 Todas as informações detalhadas do que diz respeito a detalhamento das aplicações (Ex: hiperparÂmetros da rede neural que obteve melhores resultados) são apresentadas nos scripts com os devidos comentários.
-
-
-## Descritivo dos Scripts do Projeto
-
-- Script para gerara dataset: generate_dataset.py;
-- Scripts do dispositivo de borda (IA e sensores): script_ia_ok.py and script_raspberry_sensores.py;
-- Script do arduino nano: luximetro_arduinoNano.ino; 
-- Script de treinamento da IA: projeto_final_iot_mlp.ipynb; 
-- Dataset com dados artificiais: database_iot_pf.csv;  
-- Esquemático do luxímetro: Esquematico_luximetro.pdf; 
-- Arquivo com IA treinada: mlp_smart_enviroument.joblib.
