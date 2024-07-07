@@ -30,4 +30,5 @@ A documentação, scripts e informações importantes estão organizadas da segu
 
 ## Observações Importantes
 
-Todas as informações detalhadas do que diz respeito a detalhamento das aplicações (Ex: hiperparÂmetros da rede neural que obteve melhores resultados) são apresentadas nos scripts com os devidos comentários.
+- Todas as informações detalhadas do que diz respeito a detalhamento das aplicações (Ex: hiperparÂmetros da rede neural que obteve melhores resultados) são apresentadas nos scripts com os devidos comentários.
+- O firmware utilizado nos atuadores são opensource disponibilizados pela TASMOTA, tanto para os atuadores a relé como para o atuador infravermelho.
