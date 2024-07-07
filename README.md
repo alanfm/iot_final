@@ -17,3 +17,18 @@ setados como padrão do ambiente a mesma realiza a tomata de decisão para dispa
 Os alertas são enviados para um bot no Telegram com os dados do ambiente e o problema
 encontrado. 
 <div align="center"><img src="/figures/bot.png" alt="image" width="400" height="auto"></div>
+
+## Observações Importantes
+
+Todas as informações detalhadas do que diz respeito a detalhamento das aplicações (Ex: hiperparÂmetros da rede neural que obteve melhores resultados) são apresentadas nos scripts com os devidos comentários.
+
+
+## Descritivo dos Scripts do Projeto
+
+- Script para gerara dataset: generate_dataset.py;
+- Scripts do dispositivo de borda (IA e sensores): script_ia_ok.py and script_raspberry_sensores.py;
+- Script do arduino nano: luximetro_arduinoNano.ino; 
+- Script de treinamento da IA: projeto_final_iot_mlp.ipynb; 
+- Dataset com dados artificiais: database_iot_pf.csv;  
+- Esquemático do luxímetro: Esquematico_luximetro.pdf; 
+- Arquivo com IA treinada: mlp_smart_enviroument.joblib.
