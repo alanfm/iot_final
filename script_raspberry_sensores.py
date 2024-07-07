@@ -103,7 +103,6 @@ while(1):
         print(f"\nIluminância: {lux_s}"+" lux")
      print ("\nTemperatura: "+str(temp));
      print ("\nUmidade: "+str(umid))
-     #print ("Aguarda 5 segundos para efetuar nova leitura...n");
      features, name, idd = getData(get,lux_s,umid,temp)
      if features[3] == False:
        lux_s = 0
