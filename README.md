@@ -32,3 +32,36 @@ A documentação, scripts e informações importantes estão organizadas da segu
 
 - Todas as informações detalhadas do que diz respeito a detalhamento das aplicações (Ex: hiperparÂmetros da rede neural que obteve melhores resultados) são apresentadas nos scripts com os devidos comentários.
 - O firmware utilizado nos atuadores são opensource disponibilizados pela TASMOTA, tanto para os atuadores a relé como para o atuador infravermelho.
+
+---
+
+# Smart Environment
+> Lighting and Air Conditioning Monitoring System for Environments
+
+The developed project consists of the implementation of a _Smart Environment_ using IoT and AI concepts. In this environment, we can control access, lighting, and air conditioning through a Web application for _Smartphones_ (Android and iOS) and computers. Additionally, the solution includes a system for monitoring data from light, humidity, and temperature sensors in an environment. Data collection is carried out by the sensors present in the environment, which are sent to an edge server device. These data are used and applied to the AI developed for alert management and decision-making. In this way, we can monitor the average illuminance of the place, temperature, and humidity with the aim of detecting possible failures to automatically trigger the maintenance sector, optimizing the maintenance services of the environments.
+
+## Project Architecture
+<div align="center"><img src="/figures/arquitetura.png" alt="image" width="400" height="auto"></div>
+
+## Application
+The Web application used to manage the actuators and sensors utilized in the environment is illustrated below. Through the application's interface, the user can control the status of sensors and actuators. For the control of each registered environment, the user can also determine and edit the standard values for brightness and temperature. Finally, the application also presents the sensor reading data through updated graphs with the database that collects these values.
+<div align="center"><img src="/figures/app.png" alt="image" width="600" height="auto"></div>
+
+## Alerts
+The collected data and the status of the actuators and sensors are sent to the database. Thus, the already trained AI analyzes this information, and according to the data set as the environment standard, it makes the decision to trigger alerts. The alerts are sent to a bot on Telegram with the environment data and the identified problem.
+<div align="center"><img src="/figures/bot.png" alt="image" width="400" height="auto"></div>
+
+## Project Documentation Description
+
+The documentation, scripts, and important information are organized as follows in the repository:
+
+- SCRIPTS: Contains the scripts used in the Arduino Nano firmware for the luxmeter, Raspberry Pi scripts for sensor reading, and data analysis on the device for AI decision-making;
+- SCHEMATICS: Schematic of the circuit assembled with the LDR sensor with a voltage divider for data reading later converted into lux and the circuit for the Raspberry Pi input which operates at 3.3V;
+- app: Repository with backend and frontend scripts of the WEB application;
+- figures: All figures used to present the system;
+- dataset: Repository with scripts for generating artificial data, training AI algorithms, and a file with the trained AI to embed in the Raspberry Pi.
+
+## Important Observations
+
+- All detailed information regarding the application details (e.g., hyperparameters of the neural network that achieved the best results) is presented in the scripts with the appropriate comments.
+- The firmware used in the actuators is open-source provided by TASMOTA, both for relay actuators and the infrared actuator.
