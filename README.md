@@ -45,7 +45,7 @@ A documentação, scripts e informações importantes estão organizadas da segu
 - O firmware utilizado nos atuadores são opensource disponibilizados pela TASMOTA, tanto para os atuadores a relé como para o atuador infravermelho.
 
 ---
-
+<!-- 
 # Smart Environment
 > Lighting and Air Conditioning Monitoring System for Environments
 
@@ -75,4 +75,4 @@ The documentation, scripts, and important information are organized as follows i
 ## Important Observations
 
 - All detailed information regarding the application details (e.g., hyperparameters of the neural network that achieved the best results) is presented in the scripts with the appropriate comments.
-- The firmware used in the actuators is open-source provided by TASMOTA, both for relay actuators and the infrared actuator.
+- The firmware used in the actuators is open-source provided by TASMOTA, both for relay actuators and the infrared actuator. -->
