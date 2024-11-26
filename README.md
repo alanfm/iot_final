@@ -1,4 +1,45 @@
 # Smart Environment
+> System for monitoring lighting and air conditioning in environments
+
+The developed project consists of implementing a Smart Environment using IoT and AI concepts. In this environment, we can control access, lighting, and air conditioning through a Web application for Smartphones (Android and iOS) and computers. In addition, the solution includes a monitoring system for data from luminosity, humidity, and temperature sensors in an environment. Data collection is performed by the sensors in the environment and sent to an edge device server. These data are used and applied to the AI developed for alert management and decision-making. This allows monitoring the average illuminance of the location, temperature, and humidity to detect potential failures and automate maintenance actions, optimizing the maintenance services of the environments.
+
+## Hardware
+Below, we briefly present the hardware devices used in the project. All devices were chosen to ensure the best cost-benefit ratio in terms of price and features offered. As an edge device, we chose a Raspberry Pi Model 3 b+ as an MQTT server with the Mosquitto broker, as well as a server with an Edge Computing architecture for other applications. For this purpose, Mosquitto, Python3, and Ngrok (to establish a temporary external connection for online demonstrations) were configured on the device. However, if the institution has infrastructure and a public IP available, it is recommended to use them for implementation. To improve the device's performance during installation and operation, an overclocking of 1,400 MHz was applied.
+
+For the actuators, we used SONOFF and SmartIR hardware, which offer a DIY (Do-It-Yourself) mode and allow the firmware to be replaced with another chosen by the developer. For access control, we have two types of electronic locks: one with a 12V solenoid and mechanical memory (pulse of 10 ms to 100 ms) and another with a 12V electromagnet that remains closed when energized and opens when de-energized.
+
+The average illuminance of the location is measured using an LDR (Light Dependent Resistor) sensor. The LDR is a passive electronic component of the variable resistor type, specifically a resistor whose resistance varies according to the light intensity that falls on it. The data is collected through the LDR sensor with a voltage divider using a logarithmic function, measured by an analog channel of the Arduino Nano, and sent via serial to the Raspberry Pi. The circuit schematic is available in the repositories. The temperature and humidity readings of the environment are performed using the DTH11 sensor. The DHT11 is a low-cost digital sensor used for measuring air humidity and temperature, operating in the range of 0 to 50 °C and 20% to 90% humidity. In this project, the sensor sends data directly to the Raspberry Pi.
+
+## Software
+The system used for managing and accessing data in this project was developed as a Web application for Mobile and Desktop access. The front end of the application uses the React JS library \ A JavaScript library for building user interfaces, and the Tailwind CSS framework, a CSS framework aimed at design creation. The backend was developed using the Laravel framework, a PHP framework for backend, and the MariaDB relational database. Additionally, several scripts were developed for the proposed solution to enable communication between the equipment involved in the prototype. A Python script was developed for reading the DHT11 sensors and serial input with luxmeter data. On the Arduino Nano, another script converts these analog data into lux values and sends them to the Raspberry Pi via serial. The implementation of the MQTT protocol with the adopted hardware was done using TASMOTA, an open-source firmware that facilitates quick and efficient implementation of the protocol on SONOFFs and SmartIRs. Finally, a bot was developed to send maintenance alerts via Telegram.
+
+## Project Architecture
+<div align="center"><img src="/figures/arquitetura.png" alt="image" width="400" height="auto"></div>
+
+## Application
+The Web application used to manage the actuators and sensors in the environment is illustrated below. Through the application interface, the user can control the status of the sensors and actuators. For each registered environment, the user can also determine and edit the default luminosity and temperature values. Finally, the application also displays sensor reading data through graphs updated with the database that collects these values.
+
+<div align="center"><img src="/figures/app.png" alt="image" width="600" height="auto"></div>
+
+## Alerts
+The collected data and the status of the actuators and sensors are sent to the database. The trained AI analyzes this information and, based on the predefined data for the environment, makes decisions to trigger alerts. The alerts are sent to a bot on Telegram with information about the environment and the detected problem.
+
+<div align="center"><img src="/figures/bot.png" alt="image" width="400" height="auto"></div>
+
+## Project Documentation Overview
+The documentation, scripts, and important information are organized as follows in the repository:
+
+SCRIPTS: Includes the firmware scripts for the Arduino Nano luxmeter, Raspberry Pi sensor reading scripts, and data analysis scripts for decision-making by the trained AI.
+SCHEMATICS: Circuit schematic with the LDR sensor and voltage divider for lux data reading and the circuit for the Raspberry Pi input operating at 3.3V.
+app: Repository with backend and frontend scripts for the WEB application.
+figures: All figures used to present the system.
+dataset: Repository with scripts for generating artificial data, training AI algorithms, and the trained AI file to be deployed on the Raspberry Pi.
+Important Notes
+Detailed information regarding applications (e.g., hyperparameters of the neural network that achieved the best results) is presented in the scripts with proper comments.
+The firmware used in the actuators is open-source and provided by TASMOTA, for both relay and infrared actuators.
+
+
+# Smart Environment
 >Sistema de monitoramento de iluminação e climatização de ambientes
 
 O projeto desenvolvido consiste na implementação de um _Smart Enviroment_ utilizando conceitos de IoT e IA. Neste ambiente, podemos realizar o controle de acesso, iluminação e climatização por meio de uma aplicação Web, para _Smartphones_ (Android e iOS) e computadores. Além disso, a solução conta com um sistema de monitoramento de dados de sensores de luminosidade, umidade e temperatura de um ambiente. A coleta dos dados é realizada pelos sensores presentes no ambiente, que são enviadas para um servidor dispositivo de borda. Esses dados são utilizados e aplicados na IA desenvolvida para gestão dos alertas e envio das tomadas de decisão. Desta forma, podemos monitorar a iluminância média do local, temperatura e umidade com o objetivo de detectar possíveis falhas para acionar o setor de manutenção de forma automatizada, otimizando serviços de manutenção dos ambientes. 
